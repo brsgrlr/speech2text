@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="results" style="border: 1px solid red; font-size: x-large; padding: 1rem;"></div>
+  <script>
+    var results = document.getElementById('results');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'tr-TR';
+    recognition.continuous = true;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = (e) => {
+      const lastResult = e.results[e.results.length - 1];
+      // if (!lastResult.isFinal) return;
+      const speechResult = lastResult[0].transcript;
+      results.innerHTML += speechResult + " ";
+    }
+
+    recognition.onend = (e) => {
+      results.innerHTML += "<br>";
+      recognition.start();
+    }
+
+    recognition.start();
+  </script>
+</body>
+
+</html>
